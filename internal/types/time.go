@@ -2,10 +2,41 @@ package types
 
 import (
 	"encoding/xml"
+	"fmt"
 	"time"
 )
 
 type XMLTVTime struct{ time.Time }
+
+// timeLayouts lists the accepted XMLTV date/time layouts, ordered from most to
+// least specific. Per the XMLTV DTD, dates are 'YYYYMMDDhhmmss' or any initial
+// substring (e.g. 'YYYYMM'), optionally followed by a numeric timezone offset.
+// If no explicit timezone is given, UTC is assumed.
+var timeLayouts = []string{
+	"20060102150405 -0700",
+	"20060102150405",
+	"200601021504 -0700",
+	"200601021504",
+	"2006010215 -0700",
+	"2006010215",
+	"20060102 -0700",
+	"20060102",
+	"200601 -0700",
+	"200601",
+	"2006 -0700",
+	"2006",
+}
+
+// parseXMLTVTime parses value against the accepted XMLTV layouts.
+func parseXMLTVTime(value string) (time.Time, error) {
+	for _, layout := range timeLayouts {
+		if t, err := time.Parse(layout, value); err == nil {
+			return t, nil
+		}
+	}
+
+	return time.Time{}, fmt.Errorf("xmltv: unable to parse time %q", value)
+}
 
 func (t *XMLTVTime) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
 	if t == nil {
@@ -26,7 +57,7 @@ func (t *XMLTVTime) UnmarshalXMLAttr(attr xml.Attr) error {
 		return nil
 	}
 
-	tt, err := time.Parse("20060102150405 -0700", attr.Value)
+	tt, err := parseXMLTVTime(attr.Value)
 	if err != nil {
 		return err
 	}
@@ -60,7 +91,7 @@ func (t *XMLTVTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 		return nil
 	}
 
-	tt, err := time.Parse("20060102", v)
+	tt, err := parseXMLTVTime(v)
 	if err != nil {
 		return err
 	}

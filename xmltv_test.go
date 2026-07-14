@@ -3116,3 +3116,52 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 		t.Fatal(diff)
 	}
 }
+
+func TestUnmarshalFlexibleTime(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name  string
+		value string
+		want  time.Time
+	}{
+		{name: "year only", value: "2004", want: parseTime(t, "2006", "2004")},
+		{name: "year and month", value: "200407", want: parseTime(t, "200601", "200407")},
+		{name: "full date", value: "20040728", want: parseTime(t, "20060102", "20040728")},
+		{name: "date and time", value: "20040728173000", want: parseTime(t, "20060102150405", "20040728173000")},
+		{name: "with timezone", value: "20040728173000 +0300", want: parseTime(t, "20060102150405 -0700", "20040728173000 +0300")},
+		{name: "partial with timezone", value: "200407 +0000", want: parseTime(t, "200601 -0700", "200407 +0000")},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			doc := "<tv date=\"" + tt.value + "\"></tv>"
+
+			var got TV
+			if err := xml.Unmarshal([]byte(doc), &got); err != nil {
+				t.Fatalf("unexpected error parsing %q: %v", tt.value, err)
+			}
+
+			if got.Date == nil {
+				t.Fatalf("expected non-nil Date for %q", tt.value)
+			}
+
+			if !got.Date.Time.Equal(tt.want) {
+				t.Fatalf("value %q: got %v, want %v", tt.value, got.Date.Time, tt.want)
+			}
+		})
+	}
+}
+
+func TestUnmarshalInvalidTime(t *testing.T) {
+	t.Parallel()
+
+	doc := `<tv date="not-a-date"></tv>`
+
+	var got TV
+	if err := xml.Unmarshal([]byte(doc), &got); err == nil {
+		t.Fatal("expected error parsing invalid date, got nil")
+	}
+}

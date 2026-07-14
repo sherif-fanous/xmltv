@@ -1,4 +1,4 @@
-// Package xmltv provides Go structures for parsing and generating XMLTV formatted data by implementing 
+// Package xmltv provides Go structures for parsing and generating XMLTV formatted data by implementing
 // all elements of the XMLTV DTD.
 // XMLTV is an XML-based format widely used in electronic program guides (EPG) for describing TV listings.
 package xmltv
