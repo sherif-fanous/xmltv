@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.1] - 2026-07-15
+
+### Changed
+
+- Flatten the `internal/types` package into `xmltv`; the public API is unchanged (`xmltv.Time` and `xmltv.Bool` retain the same names, underlying types, and methods)
+
 ## [1.2.0] - 2026-07-14
 
 ### Fixed
@@ -16,6 +22,7 @@
 
 _First release._
 
+[1.2.1]: https://github.com/sherif-fanous/xmltv/releases/tag/v1.2.1
 [1.2.0]: https://github.com/sherif-fanous/xmltv/releases/tag/v1.2.0
 [1.1.0]: https://github.com/sherif-fanous/xmltv/releases/tag/v1.1.0
 [1.0.0]: https://github.com/sherif-fanous/xmltv/releases/tag/v1.0.0
