@@ -1,4 +1,4 @@
-package types
+package xmltv
 
 import (
 	"encoding/xml"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type XMLTVTime struct{ time.Time }
+type Time struct{ time.Time }
 
 // timeLayouts lists the accepted XMLTV date/time layouts, ordered from most to
 // least specific. Per the XMLTV DTD, dates are 'YYYYMMDDhhmmss' or any initial
@@ -27,8 +27,8 @@ var timeLayouts = []string{
 	"2006",
 }
 
-// parseXMLTVTime parses value against the accepted XMLTV layouts.
-func parseXMLTVTime(value string) (time.Time, error) {
+// parseTimeValue parses value against the accepted XMLTV layouts.
+func parseTimeValue(value string) (time.Time, error) {
 	for _, layout := range timeLayouts {
 		if t, err := time.Parse(layout, value); err == nil {
 			return t, nil
@@ -38,7 +38,7 @@ func parseXMLTVTime(value string) (time.Time, error) {
 	return time.Time{}, fmt.Errorf("xmltv: unable to parse time %q", value)
 }
 
-func (t *XMLTVTime) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
+func (t *Time) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
 	if t == nil {
 		return xml.Attr{}, nil
 	}
@@ -50,24 +50,24 @@ func (t *XMLTVTime) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
 	return xml.Attr{Name: name, Value: t.Format("20060102150405 -0700")}, nil
 }
 
-func (t *XMLTVTime) UnmarshalXMLAttr(attr xml.Attr) error {
+func (t *Time) UnmarshalXMLAttr(attr xml.Attr) error {
 	if attr.Value == "" {
-		*t = XMLTVTime{}
+		*t = Time{}
 
 		return nil
 	}
 
-	tt, err := parseXMLTVTime(attr.Value)
+	tt, err := parseTimeValue(attr.Value)
 	if err != nil {
 		return err
 	}
 
-	*t = XMLTVTime{tt}
+	*t = Time{tt}
 
 	return nil
 }
 
-func (t *XMLTVTime) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+func (t *Time) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	if t == nil {
 		return e.EncodeElement(nil, start)
 	}
@@ -79,24 +79,24 @@ func (t *XMLTVTime) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.EncodeElement(t.Format("20060102"), start)
 }
 
-func (t *XMLTVTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+func (t *Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var v string
 	if err := d.DecodeElement(&v, &start); err != nil {
 		return err
 	}
 
 	if v == "" {
-		*t = XMLTVTime{}
+		*t = Time{}
 
 		return nil
 	}
 
-	tt, err := parseXMLTVTime(v)
+	tt, err := parseTimeValue(v)
 	if err != nil {
 		return err
 	}
 
-	*t = XMLTVTime{tt}
+	*t = Time{tt}
 
 	return nil
 }

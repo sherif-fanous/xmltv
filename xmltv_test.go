@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/sherif-fanous/xmltv/internal/types"
 )
 
 func makePointer[T any](t T) *T {
@@ -38,7 +37,7 @@ func TestMarshal(t *testing.T) {
 			Space: "",
 			Local: "tv",
 		},
-		Date: &types.XMLTVTime{
+		Date: &Time{
 			Time: parseTime(t, "20060102150405 -0700", "20220401000000 +0000"),
 		},
 		SourceInfoURL:     makePointer("example.com"),
@@ -127,16 +126,16 @@ func TestMarshal(t *testing.T) {
 					Space: "",
 					Local: "programme",
 				},
-				Start: types.XMLTVTime{
+				Start: Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
-				Stop: &types.XMLTVTime{
+				Stop: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331190000 +0000"),
 				},
-				PDCStart: &types.XMLTVTime{
+				PDCStart: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
-				VPSStart: &types.XMLTVTime{
+				VPSStart: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
 				ShowView:   makePointer("12345"),
@@ -223,7 +222,7 @@ func TestMarshal(t *testing.T) {
 								Local: "actor",
 							},
 							Role:    makePointer("Karl James"),
-							IsGuest: makePointer(types.XMLTVBool(true)),
+							IsGuest: makePointer(Bool(true)),
 							Images: []Image{
 								{
 									XMLName: xml.Name{
@@ -357,7 +356,7 @@ func TestMarshal(t *testing.T) {
 						},
 					},
 				},
-				Date: &types.XMLTVTime{
+				Date: &Time{
 					Time: parseTime(t, "20060102", "19901011"),
 				},
 				Categories: []Category{
@@ -482,8 +481,8 @@ func TestMarshal(t *testing.T) {
 						Space: "",
 						Local: "video",
 					},
-					Present: makePointer(types.XMLTVBool(true)),
-					Colour:  makePointer(types.XMLTVBool(false)),
+					Present: makePointer(Bool(true)),
+					Colour:  makePointer(Bool(false)),
 					Aspect: &Aspect{
 						XMLName: xml.Name{
 							Space: "",
@@ -504,7 +503,7 @@ func TestMarshal(t *testing.T) {
 						Space: "",
 						Local: "audio",
 					},
-					Present: makePointer(types.XMLTVBool(true)),
+					Present: makePointer(Bool(true)),
 					Stereo: &Stereo{
 						XMLName: xml.Name{
 							Space: "",
@@ -518,7 +517,7 @@ func TestMarshal(t *testing.T) {
 						Space: "",
 						Local: "previously-shown",
 					},
-					Start: &types.XMLTVTime{
+					Start: &Time{
 						Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 					},
 					Channel: makePointer("channel-two.tv"),
@@ -539,7 +538,7 @@ func TestMarshal(t *testing.T) {
 					Lang: makePointer("en"),
 					Text: "Last time on this channel",
 				},
-				IsNew: types.XMLTVBool(true),
+				IsNew: Bool(true),
 				Subtitles: []Subtitles{
 					{
 						XMLName: xml.Name{
@@ -743,7 +742,7 @@ func TestMarshal(t *testing.T) {
 					Space: "",
 					Local: "programme",
 				},
-				Start: types.XMLTVTime{
+				Start: Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
 				Stop:       nil,
@@ -781,7 +780,7 @@ func TestMarshal(t *testing.T) {
 				PreviouslyShown:  nil,
 				Premiere:         nil,
 				Lastchance:       nil,
-				IsNew:            types.XMLTVBool(false),
+				IsNew:            Bool(false),
 				Subtitles:        nil,
 				Ratings:          nil,
 				StarRatings:      nil,
@@ -813,7 +812,7 @@ func TestUnmarshal(t *testing.T) {
 			Space: "",
 			Local: "tv",
 		},
-		Date: &types.XMLTVTime{
+		Date: &Time{
 			Time: parseTime(t, "20060102150405 -0700", "20220401000000 +0000"),
 		},
 		SourceInfoURL:     makePointer("example.com"),
@@ -902,16 +901,16 @@ func TestUnmarshal(t *testing.T) {
 					Space: "",
 					Local: "programme",
 				},
-				Start: types.XMLTVTime{
+				Start: Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
-				Stop: &types.XMLTVTime{
+				Stop: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331190000 +0000"),
 				},
-				PDCStart: &types.XMLTVTime{
+				PDCStart: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
-				VPSStart: &types.XMLTVTime{
+				VPSStart: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
 				ShowView:   makePointer("12345"),
@@ -998,7 +997,7 @@ func TestUnmarshal(t *testing.T) {
 								Local: "actor",
 							},
 							Role:    makePointer("Karl James"),
-							IsGuest: makePointer(types.XMLTVBool(true)),
+							IsGuest: makePointer(Bool(true)),
 							Images: []Image{
 								{
 									XMLName: xml.Name{
@@ -1132,7 +1131,7 @@ func TestUnmarshal(t *testing.T) {
 						},
 					},
 				},
-				Date: &types.XMLTVTime{
+				Date: &Time{
 					Time: parseTime(t, "20060102", "19901011"),
 				},
 				Categories: []Category{
@@ -1257,8 +1256,8 @@ func TestUnmarshal(t *testing.T) {
 						Space: "",
 						Local: "video",
 					},
-					Present: makePointer(types.XMLTVBool(true)),
-					Colour:  makePointer(types.XMLTVBool(false)),
+					Present: makePointer(Bool(true)),
+					Colour:  makePointer(Bool(false)),
 					Aspect: &Aspect{
 						XMLName: xml.Name{
 							Space: "",
@@ -1279,7 +1278,7 @@ func TestUnmarshal(t *testing.T) {
 						Space: "",
 						Local: "audio",
 					},
-					Present: makePointer(types.XMLTVBool(true)),
+					Present: makePointer(Bool(true)),
 					Stereo: &Stereo{
 						XMLName: xml.Name{
 							Space: "",
@@ -1293,7 +1292,7 @@ func TestUnmarshal(t *testing.T) {
 						Space: "",
 						Local: "previously-shown",
 					},
-					Start: &types.XMLTVTime{
+					Start: &Time{
 						Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 					},
 					Channel: makePointer("channel-two.tv"),
@@ -1314,7 +1313,7 @@ func TestUnmarshal(t *testing.T) {
 					Lang: makePointer("en"),
 					Text: "Last time on this channel",
 				},
-				IsNew: types.XMLTVBool(true),
+				IsNew: Bool(true),
 				Subtitles: []Subtitles{
 					{
 						XMLName: xml.Name{
@@ -1518,7 +1517,7 @@ func TestUnmarshal(t *testing.T) {
 					Space: "",
 					Local: "programme",
 				},
-				Start: types.XMLTVTime{
+				Start: Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
 				Stop:       nil,
@@ -1556,7 +1555,7 @@ func TestUnmarshal(t *testing.T) {
 				PreviouslyShown:  nil,
 				Premiere:         nil,
 				Lastchance:       nil,
-				IsNew:            types.XMLTVBool(false),
+				IsNew:            Bool(false),
 				Subtitles:        nil,
 				Ratings:          nil,
 				StarRatings:      nil,
@@ -1588,7 +1587,7 @@ func TestMarshalEmptyDate(t *testing.T) {
 			Space: "",
 			Local: "tv",
 		},
-		Date:              &types.XMLTVTime{},
+		Date:              &Time{},
 		SourceInfoURL:     makePointer("example.com"),
 		SourceInfoName:    makePointer("example"),
 		SourceDataURL:     makePointer("example.com/a"),
@@ -1675,16 +1674,16 @@ func TestMarshalEmptyDate(t *testing.T) {
 					Space: "",
 					Local: "programme",
 				},
-				Start: types.XMLTVTime{
+				Start: Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
-				Stop: &types.XMLTVTime{
+				Stop: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331190000 +0000"),
 				},
-				PDCStart: &types.XMLTVTime{
+				PDCStart: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
-				VPSStart: &types.XMLTVTime{
+				VPSStart: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
 				ShowView:   makePointer("12345"),
@@ -1771,7 +1770,7 @@ func TestMarshalEmptyDate(t *testing.T) {
 								Local: "actor",
 							},
 							Role:    makePointer("Karl James"),
-							IsGuest: makePointer(types.XMLTVBool(true)),
+							IsGuest: makePointer(Bool(true)),
 							Images: []Image{
 								{
 									XMLName: xml.Name{
@@ -1905,7 +1904,7 @@ func TestMarshalEmptyDate(t *testing.T) {
 						},
 					},
 				},
-				Date: &types.XMLTVTime{},
+				Date: &Time{},
 				Categories: []Category{
 					{
 						XMLName: xml.Name{
@@ -2028,8 +2027,8 @@ func TestMarshalEmptyDate(t *testing.T) {
 						Space: "",
 						Local: "video",
 					},
-					Present: makePointer(types.XMLTVBool(true)),
-					Colour:  makePointer(types.XMLTVBool(false)),
+					Present: makePointer(Bool(true)),
+					Colour:  makePointer(Bool(false)),
 					Aspect: &Aspect{
 						XMLName: xml.Name{
 							Space: "",
@@ -2050,7 +2049,7 @@ func TestMarshalEmptyDate(t *testing.T) {
 						Space: "",
 						Local: "audio",
 					},
-					Present: makePointer(types.XMLTVBool(true)),
+					Present: makePointer(Bool(true)),
 					Stereo: &Stereo{
 						XMLName: xml.Name{
 							Space: "",
@@ -2064,7 +2063,7 @@ func TestMarshalEmptyDate(t *testing.T) {
 						Space: "",
 						Local: "previously-shown",
 					},
-					Start: &types.XMLTVTime{
+					Start: &Time{
 						Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 					},
 					Channel: makePointer("channel-two.tv"),
@@ -2085,7 +2084,7 @@ func TestMarshalEmptyDate(t *testing.T) {
 					Lang: makePointer("en"),
 					Text: "Last time on this channel",
 				},
-				IsNew: types.XMLTVBool(true),
+				IsNew: Bool(true),
 				Subtitles: []Subtitles{
 					{
 						XMLName: xml.Name{
@@ -2289,7 +2288,7 @@ func TestMarshalEmptyDate(t *testing.T) {
 					Space: "",
 					Local: "programme",
 				},
-				Start: types.XMLTVTime{
+				Start: Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
 				Stop:       nil,
@@ -2327,7 +2326,7 @@ func TestMarshalEmptyDate(t *testing.T) {
 				PreviouslyShown:  nil,
 				Premiere:         nil,
 				Lastchance:       nil,
-				IsNew:            types.XMLTVBool(false),
+				IsNew:            Bool(false),
 				Subtitles:        nil,
 				Ratings:          nil,
 				StarRatings:      nil,
@@ -2359,7 +2358,7 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 			Space: "",
 			Local: "tv",
 		},
-		Date:              &types.XMLTVTime{},
+		Date:              &Time{},
 		SourceInfoURL:     makePointer("example.com"),
 		SourceInfoName:    makePointer("example"),
 		SourceDataURL:     makePointer("example.com/a"),
@@ -2446,16 +2445,16 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 					Space: "",
 					Local: "programme",
 				},
-				Start: types.XMLTVTime{
+				Start: Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
-				Stop: &types.XMLTVTime{
+				Stop: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331190000 +0000"),
 				},
-				PDCStart: &types.XMLTVTime{
+				PDCStart: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
-				VPSStart: &types.XMLTVTime{
+				VPSStart: &Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
 				ShowView:   makePointer("12345"),
@@ -2542,7 +2541,7 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 								Local: "actor",
 							},
 							Role:    makePointer("Karl James"),
-							IsGuest: makePointer(types.XMLTVBool(true)),
+							IsGuest: makePointer(Bool(true)),
 							Images: []Image{
 								{
 									XMLName: xml.Name{
@@ -2676,7 +2675,7 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 						},
 					},
 				},
-				Date: &types.XMLTVTime{},
+				Date: &Time{},
 				Categories: []Category{
 					{
 						XMLName: xml.Name{
@@ -2799,8 +2798,8 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 						Space: "",
 						Local: "video",
 					},
-					Present: makePointer(types.XMLTVBool(true)),
-					Colour:  makePointer(types.XMLTVBool(false)),
+					Present: makePointer(Bool(true)),
+					Colour:  makePointer(Bool(false)),
 					Aspect: &Aspect{
 						XMLName: xml.Name{
 							Space: "",
@@ -2821,7 +2820,7 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 						Space: "",
 						Local: "audio",
 					},
-					Present: makePointer(types.XMLTVBool(true)),
+					Present: makePointer(Bool(true)),
 					Stereo: &Stereo{
 						XMLName: xml.Name{
 							Space: "",
@@ -2835,7 +2834,7 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 						Space: "",
 						Local: "previously-shown",
 					},
-					Start: &types.XMLTVTime{
+					Start: &Time{
 						Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 					},
 					Channel: makePointer("channel-two.tv"),
@@ -2856,7 +2855,7 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 					Lang: makePointer("en"),
 					Text: "Last time on this channel",
 				},
-				IsNew: types.XMLTVBool(true),
+				IsNew: Bool(true),
 				Subtitles: []Subtitles{
 					{
 						XMLName: xml.Name{
@@ -3060,7 +3059,7 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 					Space: "",
 					Local: "programme",
 				},
-				Start: types.XMLTVTime{
+				Start: Time{
 					Time: parseTime(t, "20060102150405 -0700", "20220331180000 +0000"),
 				},
 				Stop:       nil,
@@ -3098,7 +3097,7 @@ func TestUnmarshalEmptyDate(t *testing.T) {
 				PreviouslyShown:  nil,
 				Premiere:         nil,
 				Lastchance:       nil,
-				IsNew:            types.XMLTVBool(false),
+				IsNew:            Bool(false),
 				Subtitles:        nil,
 				Ratings:          nil,
 				StarRatings:      nil,
@@ -3128,9 +3127,21 @@ func TestUnmarshalFlexibleTime(t *testing.T) {
 		{name: "year only", value: "2004", want: parseTime(t, "2006", "2004")},
 		{name: "year and month", value: "200407", want: parseTime(t, "200601", "200407")},
 		{name: "full date", value: "20040728", want: parseTime(t, "20060102", "20040728")},
-		{name: "date and time", value: "20040728173000", want: parseTime(t, "20060102150405", "20040728173000")},
-		{name: "with timezone", value: "20040728173000 +0300", want: parseTime(t, "20060102150405 -0700", "20040728173000 +0300")},
-		{name: "partial with timezone", value: "200407 +0000", want: parseTime(t, "200601 -0700", "200407 +0000")},
+		{
+			name:  "date and time",
+			value: "20040728173000",
+			want:  parseTime(t, "20060102150405", "20040728173000"),
+		},
+		{
+			name:  "with timezone",
+			value: "20040728173000 +0300",
+			want:  parseTime(t, "20060102150405 -0700", "20040728173000 +0300"),
+		},
+		{
+			name:  "partial with timezone",
+			value: "200407 +0000",
+			want:  parseTime(t, "200601 -0700", "200407 +0000"),
+		},
 	}
 
 	for _, tt := range tests {

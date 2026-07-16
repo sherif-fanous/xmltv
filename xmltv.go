@@ -5,24 +5,24 @@ package xmltv
 
 import (
 	"encoding/xml"
-
-	"github.com/sherif-fanous/xmltv/internal/types"
 )
 
-// EPG is an alias for TV.
+// EPG is an alias for TV. TV mirrors the XMLTV DTD's root <tv> element, while
+// EPG matches the term most callers use for the format. They are the same type
+// and fully interchangeable.
 type EPG = TV
 
 // TV represents the root element of an XMLTV document.
 type TV struct {
-	XMLName           xml.Name         `xml:"tv"`
-	Date              *types.XMLTVTime `xml:"date,attr,omitempty"`
-	SourceInfoURL     *string          `xml:"source-info-url,attr,omitempty"`
-	SourceInfoName    *string          `xml:"source-info-name,attr,omitempty"`
-	SourceDataURL     *string          `xml:"source-data-url,attr,omitempty"`
-	GeneratorInfoName *string          `xml:"generator-info-name,attr,omitempty"`
-	GeneratorInfoURL  *string          `xml:"generator-info-url,attr,omitempty"`
-	Channels          []Channel        `xml:"channel,omitempty"`
-	Programmes        []Programme      `xml:"programme,omitempty"`
+	XMLName           xml.Name    `xml:"tv"`
+	Date              *Time       `xml:"date,attr,omitempty"`
+	SourceInfoURL     *string     `xml:"source-info-url,attr,omitempty"`
+	SourceInfoName    *string     `xml:"source-info-name,attr,omitempty"`
+	SourceDataURL     *string     `xml:"source-data-url,attr,omitempty"`
+	GeneratorInfoName *string     `xml:"generator-info-name,attr,omitempty"`
+	GeneratorInfoURL  *string     `xml:"generator-info-url,attr,omitempty"`
+	Channels          []Channel   `xml:"channel,omitempty"`
+	Programmes        []Programme `xml:"programme,omitempty"`
 }
 
 // Channel represents a channel.
@@ -56,10 +56,10 @@ type URL struct {
 // Programme represents a programme.
 type Programme struct {
 	XMLName          xml.Name          `xml:"programme"`
-	Start            types.XMLTVTime   `xml:"start,attr"`
-	Stop             *types.XMLTVTime  `xml:"stop,attr,omitempty"`
-	PDCStart         *types.XMLTVTime  `xml:"pdc-start,attr,omitempty"`
-	VPSStart         *types.XMLTVTime  `xml:"vps-start,attr,omitempty"`
+	Start            Time              `xml:"start,attr"`
+	Stop             *Time             `xml:"stop,attr,omitempty"`
+	PDCStart         *Time             `xml:"pdc-start,attr,omitempty"`
+	VPSStart         *Time             `xml:"vps-start,attr,omitempty"`
 	ShowView         *string           `xml:"showview,attr,omitempty"`
 	VideoPlus        *string           `xml:"videoplus,attr,omitempty"`
 	Channel          string            `xml:"channel,attr"`
@@ -68,7 +68,7 @@ type Programme struct {
 	SubTitles        []SubTitle        `xml:"sub-title,omitempty"`
 	Descriptions     []Description     `xml:"desc,omitempty"`
 	Credits          *Credits          `xml:"credits,omitempty"`
-	Date             *types.XMLTVTime  `xml:"date,omitempty"`
+	Date             *Time             `xml:"date,omitempty"`
 	Categories       []Category        `xml:"category,omitempty"`
 	Keywords         []Keyword         `xml:"keyword,omitempty"`
 	Language         *Language         `xml:"language,omitempty"`
@@ -83,7 +83,7 @@ type Programme struct {
 	PreviouslyShown  *PreviouslyShown  `xml:"previously-shown,omitempty"`
 	Premiere         *Premiere         `xml:"premiere,omitempty"`
 	Lastchance       *LastChance       `xml:"last-chance,omitempty"`
-	IsNew            types.XMLTVBool   `xml:"new,omitempty"`
+	IsNew            Bool              `xml:"new,omitempty"`
 	Subtitles        []Subtitles       `xml:"subtitles,omitempty"`
 	Ratings          []Rating          `xml:"rating,omitempty"`
 	StarRatings      []StarRating      `xml:"star-rating,omitempty"`
@@ -131,12 +131,12 @@ type Director struct {
 }
 
 type Actor struct {
-	XMLName xml.Name         `xml:"actor"`
-	Role    *string          `xml:"role,attr,omitempty"`
-	IsGuest *types.XMLTVBool `xml:"guest,attr,omitempty"`
-	Images  []Image          `xml:"image,omitempty"`
-	URLs    []URL            `xml:"url,omitempty"`
-	Text    string           `xml:",chardata"`
+	XMLName xml.Name `xml:"actor"`
+	Role    *string  `xml:"role,attr,omitempty"`
+	IsGuest *Bool    `xml:"guest,attr,omitempty"`
+	Images  []Image  `xml:"image,omitempty"`
+	URLs    []URL    `xml:"url,omitempty"`
+	Text    string   `xml:",chardata"`
 }
 
 type Writer struct {
@@ -246,11 +246,11 @@ type EpisodeNumber struct {
 }
 
 type Video struct {
-	XMLName xml.Name         `xml:"video"`
-	Present *types.XMLTVBool `xml:"present,omitempty"`
-	Colour  *types.XMLTVBool `xml:"colour,omitempty"`
-	Aspect  *Aspect          `xml:"aspect,omitempty"`
-	Quality *Quality         `xml:"quality,omitempty"`
+	XMLName xml.Name `xml:"video"`
+	Present *Bool    `xml:"present,omitempty"`
+	Colour  *Bool    `xml:"colour,omitempty"`
+	Aspect  *Aspect  `xml:"aspect,omitempty"`
+	Quality *Quality `xml:"quality,omitempty"`
 }
 
 type Aspect struct {
@@ -264,9 +264,9 @@ type Quality struct {
 }
 
 type Audio struct {
-	XMLName xml.Name         `xml:"audio"`
-	Present *types.XMLTVBool `xml:"present,omitempty"`
-	Stereo  *Stereo          `xml:"stereo,omitempty"`
+	XMLName xml.Name `xml:"audio"`
+	Present *Bool    `xml:"present,omitempty"`
+	Stereo  *Stereo  `xml:"stereo,omitempty"`
 }
 
 type Stereo struct {
@@ -275,9 +275,9 @@ type Stereo struct {
 }
 
 type PreviouslyShown struct {
-	XMLName xml.Name         `xml:"previously-shown"`
-	Start   *types.XMLTVTime `xml:"start,attr,omitempty"`
-	Channel *string          `xml:"channel,attr,omitempty"`
+	XMLName xml.Name `xml:"previously-shown"`
+	Start   *Time    `xml:"start,attr,omitempty"`
+	Channel *string  `xml:"channel,attr,omitempty"`
 }
 
 type Premiere struct {
